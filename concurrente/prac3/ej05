@@ -1,0 +1,91 @@
+programa adhhd
+procesos
+  proceso juntarPapel(ES p:numero;ES aux:boolean)
+  comenzar
+    si(HayPapelEnLaEsquina)
+      tomarPapel
+      p:=p+1
+    sino
+      aux:=F
+  fin
+areas
+  ciudad1: AreaC(1,1,100,100)
+robots
+  robot tipo1
+  variables
+    yo:numero
+    p:numero
+    aux:boolean
+    av:numero
+    ca:numero
+  comenzar
+    RecibirMensaje(yo,rJ)
+    aux:=V
+    p:=0
+    av:=PosAv
+    mientras(aux=V)
+      ca:=PosCa
+      BloquearEsquina(11,11)
+      Pos(11,11)
+      juntarPapel(p,aux)
+      Pos(av,ca)
+      LiberarEsquina(11,11)
+      si (aux=V)
+        depositarPapel
+        si(PosCa<>100)
+          mover
+        sino
+          aux:=F
+   
+    EnviarMensaje(yo,rJ)
+    EnviarMensaje(p,rJ)
+      
+  fin
+  robot tipoJefe
+  variables
+    id:numero
+    p:numero
+    idMax:numero
+    max:numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+    repetir 4
+      RecibirMensaje(id,*)
+      si id=1
+        RecibirMensaje(p,r1)
+      sino
+        si id=2
+          RecibirMensaje(p,r2)
+        sino
+          si id=3
+            RecibirMensaje(p,r3)
+          sino
+            RecibirMensaje(p,r4)
+      si(p>max)
+        max:=p
+        idMax:=id
+    Informar(id)
+  fin
+variables
+  r1: tipo1
+  r2: tipo1
+  r3: tipo1
+  r4: tipo1
+  rJ: tipoJefe
+comenzar
+  AsignarArea(r1,ciudad1)
+  AsignarArea(r2,ciudad1)
+  AsignarArea(r3,ciudad1)
+  AsignarArea(r4,ciudad1)
+  AsignarArea(rJ,ciudad1)  
+  Iniciar(r1,4,1)
+  Iniciar(r2,6,1)
+  Iniciar(r3,9,1)
+  Iniciar(r4,10,1)
+  Iniciar(rJ,1,1)
+  
+fin
+  

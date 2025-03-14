@@ -1,0 +1,115 @@
+programa jahd
+procesos
+  proceso juntarFlores(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f:=f+1
+  fin
+  proceso buscoFlores(E a :numero;E c:numero;ES f:numero)
+  variables
+    av,ca:numero
+  comenzar
+    av:=PosAv
+    ca:=PosCa
+    BloquearEsquina(a,c)
+    Pos(a,c)
+    juntarFlores(f)
+    Pos(av,ca)
+    LiberarEsquina(a,c)
+  fin
+  proceso depositar(E f:numero)
+  comenzar
+    repetir f
+      depositarFlor
+  fin
+  proceso deposito(E f:numero)
+  variables
+    av,ca:numero
+  comenzar
+    av:=PosAv
+    ca:=PosCa
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    depositar(f)
+    Pos(av,ca)
+    LiberarEsquina(10,10)
+  fin
+areas
+  ciudad: AreaC(10,10,10,10)
+  ciudadPC: AreaPC(40,40,60,60)
+  c1:AreaP(1,1,1,1)
+  c2:AreaP(2,1,2,1)
+  c3:AreaP(3,1,3,1)
+  cF:AreaP(4,1,4,1)
+robots
+  robot tipoFlorero
+  variables
+    voy:boolean
+    av,ca:numero
+    f:numero
+  comenzar
+    f:=0
+    RecibirMensaje(voy,rF)
+    mientras(voy = V)
+      RecibirMensaje(av,rF)
+      RecibirMensaje(ca,rF)
+      buscoFlores(av,ca,f)
+      RecibirMensaje(voy,rF)
+    Informar(f)
+    deposito(f)
+    EnviarMensaje(f,rF)
+  fin
+  robot tipoFisca
+  variables
+    rav,rca,rr:numero
+    f,fTotales:numero
+  comenzar
+    fTotales:=0
+    repetir 8
+      Random(rr,1,3)
+      Random(rav,40,60)
+      Random(rca,40,60)
+      si(rr =1)
+        EnviarMensaje(V,r1)
+        EnviarMensaje(rav,r1)
+        EnviarMensaje(rca,r1)
+      sino
+        si(rr = 2)
+          EnviarMensaje(V,r2)
+          EnviarMensaje(rav,r2)
+          EnviarMensaje(rca,r2)
+        sino
+          EnviarMensaje(V,r3)
+          EnviarMensaje(rav,r3)
+          EnviarMensaje(rca,r3)
+    EnviarMensaje(F,r1)
+    EnviarMensaje(F,r2)
+    EnviarMensaje(F,r3)
+    repetir 3
+      RecibirMensaje(f,*)
+      fTotales:=fTotales+f
+    Informar(fTotales)
+  fin
+variables
+  r1:tipoFlorero
+  r2:tipoFlorero
+  r3:tipoFlorero
+  rF:tipoFisca
+comenzar
+  AsignarArea(r1,ciudad)
+  AsignarArea(r1,c1)
+  AsignarArea(r1,ciudadPC)
+  AsignarArea(r2,ciudad)
+  AsignarArea(r2,c2)
+  AsignarArea(r2,ciudadPC)
+  AsignarArea(r3,ciudad)
+  AsignarArea(r3,c3)
+  AsignarArea(r3,ciudadPC)
+  AsignarArea(rF,ciudad)
+  AsignarArea(rF,cF)
+  Iniciar(r1,1,1)
+  Iniciar(r2,2,1)
+  Iniciar(r3,3,1)
+  Iniciar(rF,4,1)
+fin

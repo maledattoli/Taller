@@ -1,0 +1,92 @@
+programa ajhahs
+procesos
+  proceso izquierda
+  comenzar
+    repetir 3 
+      derecha
+  fin
+  proceso depositarFlores(E f:numero)
+  comenzar
+    mientras (f>0)&(HayFlorEnLaBolsa)
+      depositarFlor
+      f:=f-1
+  fin
+  proceso contarFlores(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      f:=f+1
+      tomarFlor
+    depositarFlores(f)
+  fin
+  proceso depositarPapeles(E p:numero)
+  comenzar
+    mientras(p>0)&(HayPapelEnLaBolsa)
+      depositarPapel
+      p:=p-1
+  fin
+  proceso contarPapeles(ES p:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      p:=p+1
+      tomarPapel
+    depositarPapeles(p)
+  fin 
+  proceso contar(ES f:numero;ES p:numero)
+  comenzar
+    contarFlores(f)
+    contarPapeles(p)
+  fin
+  proceso cantidad(ES cant:numero;E p:numero;E f:numero)
+  comenzar
+    si((p-f)=1)
+      cant:=cant+1
+  fin
+  proceso escalon(E alto:numero;ES cant:numero)
+  variables
+    f:numero
+    p:numero
+  comenzar
+    f:=0
+    p:=0
+    repetir alto
+      contar(f,p)
+      mover
+    derecha
+    repetir alto
+      contar(f,p)
+      mover
+    izquierda
+    cantidad(cant,p,f)
+  fin
+  proceso recorrer(ES cant:numero)
+  variables
+    ancho:numero
+  comenzar
+    ancho:=1
+    repetir 4
+      escalon(ancho,cant)
+      ancho:=ancho+1
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot tipo1
+  variables
+    cant:numero
+  comenzar
+    cant:=0
+    recorrer(cant)
+    Informar(cant)
+  fin
+variables
+  robot1: tipo1
+  robot2: tipo1
+  robot3: tipo1
+comenzar
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  AsignarArea(robot3,ciudad)
+  Iniciar(robot1,12,14)
+  Iniciar(robot2,17,10)
+  Iniciar(robot3,22,6)
+fin

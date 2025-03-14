@@ -1,0 +1,27 @@
+programa adhhd
+procesos
+  proceso juntarF(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f:=f+1
+  fin
+  proceso recorrerNormalitoF(ES f:numero;E l:numero)
+  comenzar
+    repetir l
+      juntarF(f)
+  fin
+areas
+  ciudad1: AreaC(1,1,100,100)
+robots
+  robot tipo1
+  comenzar
+
+  fin
+variables
+  robot1: tipo1
+comenzar
+  AsignarArea(robot1,ciudad1)
+  Iniciar(robot1,1)
+fin
+  

@@ -1,0 +1,130 @@
+programa jahdsj
+procesos
+  proceso juntarFlores(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      f:=f+1
+      tomarFlor
+  fin
+  proceso juntarPapeles(ES p:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      p:=p+1
+      tomarPapel
+  fin
+  proceso Flores(ES f:numero)
+  variables
+    av:numero
+    ca:numero
+    rca:numero
+    rav:numero
+  comenzar
+    av:=PosAv
+    ca:=PosCa
+    Random(rav,1,5)
+    Random(rca,1,10)
+    BloquearEsquina(rav,rca)
+    Pos(rav,rca)
+    juntarFlores(f)
+    Pos(av,ca)
+    LiberarEsquina(rav,rca)
+  fin
+  proceso Papeles(ES p:numero)
+  variables
+    av:numero
+    ca:numero
+    rca:numero
+    rav:numero
+  comenzar
+    ca:=PosCa
+    av:=PosAv
+    Random(rav,6,10)
+    Random(rca,1,9)
+    BloquearEsquina(rav,rca)
+    Pos(rav,rca)
+    juntarPapeles(p)
+    Pos(av,ca)
+    LiberarEsquina(rav,rca)
+  fin
+  proceso dejarFlor
+  variables
+    av:numero
+    ca:numero
+  comenzar
+    ca:=PosCa
+    av:=PosAv
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    depositarFlor
+    Pos(av,ca)
+    LiberarEsquina(10,10)
+  fin
+  proceso dejarPapel
+  variables
+    av:numero
+    ca:numero
+  comenzar
+    av:=PosAv
+    ca:=PosCa
+    BloquearEsquina(10,10)
+    depositarPapel
+    Pos(av,ca)
+    LiberarEsquina(10,10)
+  fin
+areas
+  ciudad1: AreaC(10,10,10,10)
+  ciudadPapeleros: AreaPC(6,1,10,9)
+  ciudadFloreros: AreaPC(1,1,5,10)
+  ciudadf1: AreaP(6,10,6,10)
+  ciudadf2: AreaP(7,10,7,10)
+  ciudadp1: AreaP(8,10,8,10)
+  ciudadp2: AreaP(9,10,9,10)
+robots
+  robot tipoFlorero
+  variables
+    f:numero
+  comenzar
+    f:=0
+    repetir 5
+      Flores(f)
+    repetir f
+      dejarFlor
+  fin
+  robot tipoPapelero
+  variables
+    p:numero
+  comenzar
+    p:=0
+    repetir 3
+      Papeles(p)
+    repetir p
+      dejarPapel
+  fin
+variables
+  flo1: tipoFlorero
+  flo2: tipoFlorero
+  pa1:tipoPapelero
+  pa2:tipoPapelero
+comenzar
+  AsignarArea(flo1,ciudad1)
+  AsignarArea(flo1,ciudadf1)
+  AsignarArea(flo1,ciudadFloreros)
+  
+  AsignarArea(flo2,ciudadFloreros)
+  AsignarArea(flo2,ciudad1)
+  AsignarArea(flo2,ciudadf2)
+  
+  AsignarArea(pa1,ciudad1)
+  AsignarArea(pa1,ciudadp1)
+  AsignarArea(pa1,ciudadPapeleros)
+  
+  AsignarArea(pa2,ciudad1)
+  AsignarArea(pa2,ciudadp2)
+  AsignarArea(pa2,ciudadPapeleros)
+  
+  Iniciar(flo1,6,10)
+  Iniciar(flo2,7,10)
+  Iniciar(pa1,8,10)
+  Iniciar(pa2,9,10)
+fin
+  

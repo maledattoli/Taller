@@ -1,0 +1,80 @@
+programa ej03
+procesos
+  proceso juntarFlores(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      f:=f+1
+      tomarFlor
+  fin
+  proceso juntarPapeles(ES p:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      p:=p+1
+      tomarPapel
+  fin
+  proceso recorrerA(ES p:numero)
+  comenzar
+    derecha
+    repetir 9
+      juntarPapeles(p)
+      mover
+    juntarPapeles(p)
+  fin
+  proceso recorrerB(ES f:numero)
+  comenzar
+    derecha
+    repetir 9
+      juntarFlores(f)
+      mover
+    juntarFlores(f)
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot tipoA1
+  variables
+    p:numero
+  comenzar
+    p:=0
+    recorrerA(p)
+    EnviarMensaje(p,robotA2)
+  fin
+  robot tipoA2
+  variables
+    p:numero
+  comenzar
+    RecibirMensaje(p,robotA1)
+    recorrerA(p)
+    Informar('papeles_',p)
+  fin
+  robot tipoB1
+  variables
+    f:numero
+  comenzar
+    f:=0
+    recorrerB(f)
+    EnviarMensaje(f,robotB2)
+  fin
+  robot tipoB2
+  variables
+    f:numero
+  comenzar
+    RecibirMensaje(f,robotB1)
+    recorrerB(f)
+    Informar('flores_',f)
+  fin
+variables
+  robotA1: tipoA1
+  robotA2: tipoA2
+  robotB1: tipoB1
+  robotB2: tipoB2
+comenzar
+  AsignarArea(robotA1,ciudad)
+  AsignarArea(robotA2,ciudad)
+  AsignarArea(robotB1,ciudad)
+  AsignarArea(robotB2,ciudad)
+  Iniciar(robotA1,1,1)
+  Iniciar(robotA2,11,1)
+  Iniciar(robotB1,1,5)
+  Iniciar(robotB2,11,5)
+fin

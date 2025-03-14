@@ -1,0 +1,108 @@
+programa ajhdjdh
+procesos
+  proceso cual1
+  comenzar
+    si(PosAv=1)
+      recorrerFlores(15)
+    sino
+      recorrerFlores(30)
+  fin
+  proceso cual2
+  comenzar
+    si(PosAv=75)
+      recorrerPapeles(20)
+    sino
+      recorrerPapeles(10)
+  fin
+  proceso recorrerFlores(E esquinas:numero)
+  variables
+    flores:numero
+  comenzar
+    flores:=0
+    repetir esquinas
+      JuntarFlor(flores)
+      mover
+    JuntarFlor(flores)
+
+    DepositarFlores(flores)
+    Pos(PosAv-esquinas,PosCa+5)
+    f:=0
+    repetir esquinas
+      JuntarFlor(flores)
+      mover
+    JuntarFlor(flores)
+    
+    DepositarFlores(flores)
+  fin
+  proceso JuntarFlor(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f:=f+1
+  fin
+  proceso DepositarFlores(E f:numero)
+  comenzar
+    repetir f
+      depositarFlor
+  fin
+  proceso recorrerPapeles(E esquinas:numero)
+  variables
+    p:numero
+  comenzar
+    derecha
+    p:=0
+    repetir esquinas
+      JuntarPapel(p)
+      mover
+    JuntarPapel(p)
+    Pos(PosAv,PosCa-esquinas)
+    DepositarPapeles(p)
+    Pos(PosAv+5,PosCa)
+    p:=0
+    repetir esquinas
+      JuntarPapel(p)
+      mover
+    JuntarPapel(p)
+    Pos(PosAv,PosCa-esquinas)
+    DepositarPapeles(p)
+  fin
+  proceso JuntarPapel(ES f:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      f:=f+1
+  fin
+  proceso DepositarPapeles(E f:numero)
+  comenzar
+    repetir f
+      depositarPapel
+  fin
+areas
+  ciudad1: AreaP(1,75,16,80)
+  ciudad2: AreaP(75,80,80,100)
+  ciudad4: AreaP(10,1,15,11)
+  ciudad3: AreaP(70,10,100,15)
+robots
+  robot tipo1
+  comenzar
+    cual1
+  fin
+  robot tipo2
+  comenzar
+    cual2
+  fin
+variables
+  robot1: tipo1
+  robot2: tipo2
+  robot3: tipo1
+  robot4: tipo2
+comenzar
+  AsignarArea(robot1,ciudad1)
+  AsignarArea(robot2,ciudad2)
+  AsignarArea(robot3,ciudad3)
+  AsignarArea(robot4,ciudad4)
+  Iniciar(robot1,1,75)
+  Iniciar(robot2,75,80)
+  Iniciar(robot3,70,10)
+  Iniciar(robot4,10,1)
+fin

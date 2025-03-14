@@ -1,0 +1,105 @@
+programa adhhd
+areas
+  ciudad: AreaPC(2,2,10,10)
+  ciudadJ: AreaP(1,1,1,1)
+  c1: AreaP(2,1,2,1)
+  c2: AreaP(3,1,3,1)
+  c3: AreaP(4,1,4,1)
+  c4: AreaP(5,1,5,1)
+  
+robots
+  robot tipo1
+  variables
+    av:numero
+    ca:numero
+    rca:numero
+    rav:numero
+    yo:numero
+    f:numero
+    aux:boolean
+  comenzar
+    RecibirMensaje(yo,rJe)
+    RecibirMensaje(rav,rJe)
+    RecibirMensaje(rca,rJe)
+    f:=0
+    av:=PosAv
+    ca:=PosCa
+    aux:=V
+    mientras(aux=V)
+      BloquearEsquina(rav,rca)
+      Pos(rav,rca)
+      si(HayFlorEnLaEsquina)
+        tomarFlor
+        f:=f+1
+      sino
+        aux:=F
+      Pos(av,ca)
+      LiberarEsquina(rav,rca)
+    EnviarMensaje(yo,rJe)
+    EnviarMensaje(f,rJe)
+  fin
+  robot tipoJefe
+  variables
+    max:numero
+    idMax:numero
+    id:numero
+    f:numero
+    rav:numero
+    rca:numero
+  comenzar
+    idMax:=0
+    max:=-1
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+    Random(rav,2,10)
+    Random(rca,2,10)
+    EnviarMensaje(rav,r2)
+    EnviarMensaje(rav,r3)
+    EnviarMensaje(rav,r4)
+    EnviarMensaje(rav,r1)
+    EnviarMensaje(rca,r1)
+    EnviarMensaje(rca,r2)
+    EnviarMensaje(rca,r3)
+    EnviarMensaje(rca,r4)
+    repetir 4
+      RecibirMensaje(id,*)
+      si(id=1)
+        RecibirMensaje(f,*)
+      sino
+        si id=2
+          RecibirMensaje(f,*)
+        sino
+          si id=3
+            RecibirMensaje(f,*)
+          sino
+            RecibirMensaje(f,*)
+      si(f>max)
+        idMax:=id
+        max:=f
+    Informar(idMax)
+  fin
+variables
+  r1: tipo1
+  r2: tipo1
+  r3: tipo1
+  r4: tipo1
+  rJe: tipoJefe
+comenzar
+  AsignarArea(r1,ciudad)
+  AsignarArea(r1,c1)
+  AsignarArea(r2,ciudad)
+  AsignarArea(r2,c2)
+  AsignarArea(r3,ciudad)
+  AsignarArea(r3,c3)
+  AsignarArea(r4,ciudad)
+  AsignarArea(r4,c4)
+  AsignarArea(rJe,ciudadJ)
+  Iniciar(rJe,1,1)
+  Iniciar(r1,2,1)
+  Iniciar(r2,3,1)
+  Iniciar(r3,4,1)
+  Iniciar(r4,5,1)
+fin
+  

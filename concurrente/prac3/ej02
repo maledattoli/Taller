@@ -1,0 +1,135 @@
+programa adhhd
+procesos
+  proceso juntarFlores(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      f:=f+1
+      tomarFlor
+  fin
+  proceso juntarPapeles(ES p:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      p:=p+1
+      tomarPapel
+  fin
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso escalonFlorero(ES f:numero;E lado:numero)
+  comenzar 
+    repetir lado
+      juntarFlores(f)
+      mover
+    derecha
+    repetir lado
+      juntarFlores(f)
+      mover
+    izquierda
+  fin
+  proceso escalonPapelero(ES p:numero;E l:numero)
+  comenzar
+    repetir l
+      juntarPapeles(p)
+      mover
+    izquierda
+    repetir l
+      juntarPapeles(p)
+      mover
+    derecha
+  fin
+areas
+  ciudad1: AreaPC(1,1,15,30)
+  ciudad2: AreaP(17,1,31,30)
+  pc: AreaPC(16,16,16,16)
+robots
+  robot tipo1
+  variables
+    f:numero
+    lado:numero
+    yo:numero
+  comenzar
+    f:=0
+    RecibirMensaje(yo,rJefe)
+    lado:=5
+    repetir 4
+      escalonFlorero(f,lado)
+      lado:=lado-1
+    mover
+    juntarFlores(f)
+    derecha
+    BloquearEsquina(16,16)
+    EnviarMensaje(yo,rJefe)
+    mover
+    juntarFlores(f) 
+    repetir 2
+      derecha
+    mover
+    LiberarEsquina(16,16)
+    lado:=lado+1
+    repetir 4
+      escalonFlorero(f,lado)
+      lado:=lado+1
+    EnviarMensaje(V,rJefe)
+    Informar(f)
+  fin
+  robot tipo2
+  variables
+    p:numero
+    yo:numero
+    lado:numero
+  comenzar
+    RecibirMensaje(yo,rJefe)
+    lado:=5
+    p:=0
+    repetir 4
+      escalonPapelero(p,lado)
+      lado:=lado-1
+    mover
+    juntarPapeles(p)
+    izquierda
+    BloquearEsquina(16,16)
+    mover
+    EnviarMensaje(yo,rJefe)
+    juntarPapeles(p)
+    repetir 2
+      derecha
+    mover
+    LiberarEsquina(16,16)
+    lado:=2
+    repetir 4
+      escalonPapelero(p,lado)
+      lado:=lado+1
+    EnviarMensaje(V,rJefe)
+    Informar(p)
+  fin
+  robot tipoJefe
+  variables
+    ganador:numero
+    perdedor:numero
+    aux:boolean
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)  
+    RecibirMensaje(ganador,*)
+    RecibirMensaje(perdedor,*)
+    repetir 2
+      RecibirMensaje(aux,*)
+    Informar(ganador)
+  fin
+variables
+  r1: tipo1
+  rJefe: tipoJefe
+  r2: tipo2
+comenzar
+  AsignarArea(r1,ciudad1)
+  AsignarArea(r1,pc)
+  AsignarArea(r2,ciudad2)
+  AsignarArea(r2,pc)
+  AsignarArea(rJefe,ciudad1)
+  Iniciar(r1,1,1)
+  Iniciar(r2,31,1)
+  Iniciar(rJefe,15,1)
+fin
+  

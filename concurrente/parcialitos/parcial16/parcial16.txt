@@ -1,0 +1,106 @@
+programa parcialB1
+procesos
+  proceso juntarFlores(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f:=f+1
+  fin
+  proceso recorrer2(ES f:numero;E ca:numero;E yo:numero)
+  comenzar
+    repetir 4
+      juntarFlores(f)
+      mover
+    juntarFlores(f)
+    BloquearEsquina(PosAv+1,ca)
+    EnviarMensaje(yo,rF)
+    mover
+    juntarFlores(f)
+    Informar(yo)
+    mover
+    LiberarEsquina(PosAv-1,ca)
+    repetir 54
+      juntarFlores(f)
+      mover
+    juntarFlores(f)
+  fin
+  proceso recorrer1(ES f:numero;E ca:numero;E yo:numero)
+  comenzar
+    repetir ca-2
+      juntarFlores(f)
+      mover
+    juntarFlores(f)
+    BloquearEsquina(PosAv,PosCa+1)
+    mover
+    EnviarMensaje(yo,rF){}{}{}{}{}{}
+    Informar(444)
+    juntarFlores(f)
+    mover
+    LiberarEsquina(PosAv,PosCa-1)
+    repetir 60-ca
+      juntarFlores(f)
+      mover
+    juntarFlores(f)
+  fin
+areas
+  ciudadJ:AreaP(100,100,100,100)
+  ciudad:AreaPC(1,1,61,61)
+robots
+  robot tipocalle
+  variables
+    yo,ca,f:numero
+  comenzar
+    derecha
+    f:=0
+    RecibirMensaje(yo,rF)
+    RecibirMensaje(ca,rF)
+    EnviarMensaje(ca,rave)
+    Pos(1,ca)
+    recorrer2(f,ca,yo)
+    EnviarMensaje(yo,rF)
+    EnviarMensaje(f,rF)
+  fin
+  robot tipoavenida
+  variables
+    f,yo,ca:numero
+  comenzar
+    f:=0
+    RecibirMensaje(yo,rF)
+    RecibirMensaje(ca,rca)
+    recorrer1(f,ca,yo)
+    EnviarMensaje(yo,rF)
+    EnviarMensaje(f,rF)
+  fin
+  robot tipoFisca
+  variables
+    quien,ca,fca,fave,ganador:numero
+  comenzar
+    EnviarMensaje(1,rave)
+    EnviarMensaje(2,rca)
+    Random(ca,2,50)
+    EnviarMensaje(ca,rca)
+    RecibirMensaje(ganador,*)
+    RecibirMensaje(quien,*)
+    repetir 2
+      RecibirMensaje(quien,*)
+      si quien =2 
+        RecibirMensaje(fca,rca)
+      sino
+        RecibirMensaje(fave,rave)
+    si(ganador = 2)
+      Informar(fca)
+    sino
+      Informar(fave)
+  fin
+variables
+  rca:tipocalle{1}
+  rave:tipoavenida{2}
+  rF:tipoFisca
+comenzar
+  AsignarArea(rca,ciudad)
+  AsignarArea(rave,ciudad)
+  AsignarArea(rF,ciudadJ)
+  Iniciar(rave,6,1)
+  Iniciar(rca,1,2)
+  Iniciar(rF,100,100)
+fin

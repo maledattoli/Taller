@@ -1,0 +1,90 @@
+programa parcialh
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso moverYJuntar(E a:numero; E c:numero)
+  variables
+    av,ca:numero
+  comenzar
+    av:=PosAv
+    ca:=PosCa
+    BloquearEsquina(a,c)
+    Pos(a,c)
+    juntarFlores
+    Pos(av,ca)
+    LiberarEsquina(a,c)
+  fin
+areas
+  ciudad:AreaC(1,1,100,100)
+robots
+  robot tipo1
+  variables
+    intentos,yo,av,ca,a,c:numero 
+    aux:boolean
+  comenzar
+    RecibirMensaje(yo,rF)
+    Random(intentos,2,5)
+    EnviarMensaje(intentos,rF)
+    repetir intentos      
+      EnviarMensaje(V,rF)
+      EnviarMensaje(yo,rF)
+      RecibirMensaje(av,rF)
+      RecibirMensaje(ca,rF)
+      a:=PosAv
+      c:=PosCa
+      BloquearEsquina(av,ca)
+      Pos(av,ca)  
+      juntarFlores
+      Pos(a,c)
+      LiberarEsquina(av,ca)
+    EnviarMensaje(F,rF)
+  fin
+  robot tipoFisca
+  variables
+    max,av,ca,quien,intentos,n,terminaron:numero
+    sigo:boolean
+  comenzar
+    max:=3
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    terminaron:=0
+    repetir 3
+      RecibirMensaje(n,*)
+      intentos:=n+intentos      
+    mientras(terminaron<max)
+      RecibirMensaje(sigo,*)
+      si(sigo=V)
+        Random(av,10,30)
+        Random(ca,10,30)
+        RecibirMensaje(quien,*)
+        si(quien=1)
+          EnviarMensaje(av,r1)
+          EnviarMensaje(ca,r1)
+        sino
+          si(quien=2)
+            EnviarMensaje(av,r2)
+            EnviarMensaje(ca,r2)
+          sino
+            EnviarMensaje(av,r3)
+            EnviarMensaje(ca,r3)
+      sino
+        terminaron:=terminaron+1
+    Informar(intentos)
+  fin
+variables
+  r1,r2,r3:tipo1
+  rF:tipoFisca
+comenzar
+  AsignarArea(r1,ciudad)
+  AsignarArea(r2,ciudad)
+  AsignarArea(r3,ciudad)
+  AsignarArea(rF,ciudad)
+  Iniciar(r1,1,1)
+  Iniciar(r2,2,1)
+  Iniciar(r3,3,1)
+  Iniciar(rF,9,9)
+fin

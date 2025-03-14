@@ -1,0 +1,125 @@
+programa YOYO
+procesos
+  proceso juntarFlores(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      f:=f+1
+      tomarFlor
+  fin
+  proceso juntarPapeles(ES p:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      p:=p+1
+      tomarPapel
+  fin
+  proceso recorrerR(ES f:numero)
+  comenzar
+    repetir 96
+      juntarFlores(f)
+      mover
+    juntarFlores(f)
+    BloquearEsquina(PosAv,PosCa+1)
+    mover
+    juntarFlores(f)
+    BloquearEsquina(PosAv,PosCa+1)
+    mover
+    LiberarEsquina(PosAv,PosCa-1)
+    juntarFlores(f)
+    mover
+    LiberarEsquina(PosAv,PosCa-1)
+    juntarFlores(f)
+  fin
+  proceso recorrerA(ES p:numero)
+  comenzar
+    derecha
+    juntarPapeles(p)
+    BloquearEsquina(PosAv+1,PosCa)
+    mover
+    juntarPapeles(p)
+    BloquearEsquina(PosAv+1,PosCa)
+    mover
+    LiberarEsquina(PosAv-1,PosCa)
+    juntarPapeles(p)
+    mover
+    LiberarEsquina(PosAv-1,PosCa)  
+    juntarPapeles(p)
+    repetir 96
+      juntarPapeles(p)
+      mover
+    juntarPapeles(p)
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot tipoRojo
+  variables
+    f:numero
+    yo:numero
+  comenzar
+    RecibirMensaje(yo,rJ)
+    recorrerR(f)
+    EnviarMensaje(yo,rJ)
+    EnviarMensaje(f,rJ)
+  fin
+  robot tipoAzul
+  variables
+    p:numero
+    yo:numero
+  comenzar
+    RecibirMensaje(yo,rJ)
+    recorrerA(p)
+    EnviarMensaje(yo,rJ)
+    EnviarMensaje(p,rJ)
+  fin
+  robot tipoJefe
+  variables
+    quien:numero
+    o:numero
+    f:numero
+    p:numero
+  comenzar
+    EnviarMensaje(1,rR1)
+    EnviarMensaje(2,rR2)
+    EnviarMensaje(3,rA1)
+    EnviarMensaje(4,rA2)
+    p:=0
+    f:=0
+    repetir 4
+      RecibirMensaje(quien,*)
+      si(quien=1)
+        RecibirMensaje(o,rR1)
+        f:=f+o
+      sino
+        si(quien =2)
+          RecibirMensaje(o,rR2)
+          f:=f+o
+        sino
+          si quien=3
+            RecibirMensaje(o,rA1)
+            p:=p+o
+          sino
+            RecibirMensaje(o,rA2)
+            p:=p+o
+    si(f>p)
+      Informar(1)
+    sino
+      Informar(2)
+  fin
+variables
+  rR1:tipoRojo
+  rR2:tipoRojo
+  rA1:tipoAzul
+  rA2:tipoAzul
+  rJ:tipoJefe
+comenzar
+  AsignarArea(rR1,ciudad)
+  AsignarArea(rR2,ciudad)
+  AsignarArea(rA1,ciudad)
+  AsignarArea(rA2,ciudad)
+  AsignarArea(rJ,ciudad)
+  Iniciar(rJ,1,1)
+  Iniciar(rR1,2,1)
+  Iniciar(rR2,3,1)
+  Iniciar(rA1,1,98)
+  Iniciar(rA2,1,99)
+fin

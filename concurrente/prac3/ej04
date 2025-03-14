@@ -1,0 +1,87 @@
+programa adhhd
+procesos
+  proceso recogerFlores
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso recolectar
+  comenzar
+    Pos(11,11)
+    recogerFlores
+  fin
+areas
+  ciudad1: AreaC(1,1,100,100)
+robots
+  robot tipo1
+  variables
+    yo:numero
+    av:numero
+    ca:numero
+    aux:boolean
+  comenzar
+    RecibirMensaje(yo,rJ)
+    av:=PosAv
+    ca:=PosCa
+    aux:=V
+    mientras(aux=V)
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      si(HayFlorEnLaEsquina)
+        tomarFlor
+        BloquearEsquina(11,11)
+        Pos(11,11)
+        LiberarEsquina(10,10)
+        depositarFlor
+        Pos(av,ca)
+        LiberarEsquina(11,11)
+      sino
+        Pos(av,ca)
+        LiberarEsquina(10,10)
+        aux:=F
+    EnviarMensaje(yo,rJ)
+    RecibirMensaje(aux,rJ)
+  fin
+  robot tipoJefe
+  variables
+    quien:numero
+    aux:boolean
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+    repetir 4
+      RecibirMensaje(quien,*)
+      si quien=1
+        EnviarMensaje(V,r1)
+      sino
+        si quien=2
+          EnviarMensaje(V,r2)
+        sino
+          si quien=3
+            EnviarMensaje(V,r3)
+          sino
+            EnviarMensaje(V,r4)
+    Informar(quien)
+    recolectar
+  fin
+variables
+  r1: tipo1
+  r2: tipo1
+  r3: tipo1
+  r4: tipo1
+  rJ: tipoJefe
+comenzar
+  AsignarArea(r1,ciudad1)
+  AsignarArea(r2,ciudad1)
+  AsignarArea(r3,ciudad1)
+  AsignarArea(r4,ciudad1)
+  AsignarArea(rJ,ciudad1)
+  Iniciar(rJ,1,1)
+  Iniciar(r1,9,9)
+  Iniciar(r2,9,10)
+  Iniciar(r3,9,11)
+  Iniciar(r4,9,12)  
+fin
+  

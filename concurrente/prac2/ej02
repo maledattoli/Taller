@@ -1,0 +1,92 @@
+programa adhhd
+procesos
+  proceso juntarPapeles(ES p:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      p:=p+1
+      tomarPapel{iniciar p}
+  fin
+  proceso juntarFlores(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      f:=f+1
+      tomarFlor
+  fin
+  proceso juntarPapelYFlor(ES f:numero;ES p:numero)
+  comenzar
+    juntarFlores(f)
+    juntarPapeles(p)
+  fin
+  proceso recorroLados(ES sup:numero;E x:numero)
+  variables
+    x:numero
+    f:numero
+    p:numero
+  comenzar
+    f:=0
+    p:=0
+    repetir x
+      juntarPapelYFlor(f,p)
+      mover
+    juntarPapelYFlor(f,p)
+    si(f>p)&((f+p)<>0)
+      sup:=sup+1
+  fin
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso recorrerLados(ES sup:numero)
+  variables
+    x:numero
+  comenzar
+    repetir 4
+      x:=3
+      recorroLados(sup,x)
+      derecha
+      recorroLados(sup,1)  
+      izquierda 
+  fin
+areas
+  ciudad1: AreaPC(2,1,100,100)
+  ciudadJefe: AreaP(1,1,1,1)
+robots
+  robot tipoSubordinado
+  variables
+    sup:numero
+  comenzar
+    sup:=0
+    recorrerLados(sup)
+    EnviarMensaje(sup,robotJefe)
+  fin
+  robot tipoJefe
+  variables
+    total:numero
+    aux:numero
+  comenzar
+    total:=0
+    RecibirMensaje(aux,*)
+    total:=total+aux
+    RecibirMensaje(aux,*)
+    total:=total+aux
+    RecibirMensaje(aux,*)
+    total:=total+aux
+    Informar(aux)
+  fin
+variables
+  robot1: tipoSubordinado
+  robot2: tipoSubordinado
+  robot3: tipoSubordinado
+  robotJefe: tipoJefe
+comenzar
+  AsignarArea(robot1,ciudad1)
+  AsignarArea(robot2,ciudad1)
+  AsignarArea(robot3,ciudad1)
+  AsignarArea(robotJefe,ciudadJefe)
+  Iniciar(robot1,2,1)
+  Iniciar(robot2,7,1)
+  Iniciar(robot3,12,1)
+  Iniciar(robotJefe,1,1)
+fin
+  

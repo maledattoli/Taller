@@ -1,0 +1,118 @@
+programa ajshd
+procesos
+  proceso juntarFlores(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f:=f+1
+  fin  
+  proceso juntarPapeles
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso recorrer2
+  comenzar
+    repetir 99
+      juntarPapeles
+      mover
+    juntarPapeles
+  fin
+  proceso recorrer1(ES f:numero)
+  comenzar
+    repetir 99
+      juntarFlores(f)
+      mover
+    juntarFlores(f)      
+  fin
+areas
+  ciudad:AreaC(1,1,100,100)
+robots
+  robot tipo1
+  variables
+    quien,f,anda1,anda2,yo:numero  
+  comenzar
+    RecibirMensaje(yo,rF)
+    f:=0
+    recorrer1(f)
+    EnviarMensaje(yo,rF)
+    EnviarMensaje(f,rF)
+    RecibirMensaje(anda1,rF)
+    RecibirMensaje(anda2,rF)
+    si((anda1=V)|(anda2=V))
+      Pos(PosAv,1)
+      recorrer2
+      EnviarMensaje(yo,rF)
+  fin
+  robot tipoFisca
+  variables
+    id,f,max2,max1,idMax2,idMax1,primero:numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    max1:=-1
+    max2:=-1
+    idMax1:=0
+    idMax2:=0
+    repetir 3
+      RecibirMensaje(id,*)
+      si(id=1)
+        RecibirMensaje(f,r1)
+      sino
+        si(id=2)
+          RecibirMensaje(f,r2)
+        sino
+          RecibirMensaje(f,r3)
+      si(f>=max1)
+        idMax2:=idMax1
+        max2:=max1
+        idMax1:=id
+        max1:=f
+      sino
+        si(f>=max2)
+          max2:=f
+          idMax2:=id
+    si(idMax1=1)
+      EnviarMensaje(V,r1)
+      EnviarMensaje(F,r2)
+      EnviarMensaje(F,r3)
+    sino
+      si(idMax1=2)
+        EnviarMensaje(F,r1)
+        EnviarMensaje(V,r2)
+        EnviarMensaje(F,r3)
+      sino
+        EnviarMensaje(F,r1)
+        EnviarMensaje(V,r3)  
+        EnviarMensaje(F,r2)  
+    si(idMax2=1)  
+      EnviarMensaje(V,r1) 
+      EnviarMensaje(F,r2) 
+      EnviarMensaje(F,r3) 
+    sino
+      si(idMax2=2)
+        EnviarMensaje(F,r1)
+        EnviarMensaje(V,r2)
+        EnviarMensaje(F,r3)
+      sino
+        EnviarMensaje(F,r1)
+        EnviarMensaje(V,r3) 
+        EnviarMensaje(F,r2)
+    RecibirMensaje(primero,*)
+    RecibirMensaje(id,*)
+    Informar(primero)
+  fin
+variables
+  r1,r2,r3:tipo1
+  rF:tipoFisca
+comenzar
+  AsignarArea(r2,ciudad)
+  AsignarArea(r1,ciudad)
+  AsignarArea(r3,ciudad)
+  AsignarArea(rF,ciudad)
+  Iniciar(r1,5,1)
+  Iniciar(r2,6,1)
+  Iniciar(r3,7,1)
+  Iniciar(rF,1,1)
+fin
